@@ -96,7 +96,7 @@ Feita a configuração, você pode rodar o comando abaixo para rodar o projeto.
 
 ## Students
 
-**Limite de requisições por minuto**: 30 requisições por minuto.
+**Limite de requisições por minuto**: 50 requisições por minuto.
 
 #### Lista todos estudantes
 
