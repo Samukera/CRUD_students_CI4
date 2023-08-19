@@ -24,9 +24,9 @@ class Login extends ResourceController
     {
         $response = [];
         $data = [
-            'username' => $this->request->getPost('username'),
-            'email' => $this->request->getPost('email'),
-            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT)
+            'username' => $this->request->getVar('username'),
+            'email' => $this->request->getVar('email'),
+            'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT)
         ];
         
         try {
@@ -55,8 +55,8 @@ class Login extends ResourceController
 
     public function login()
     {
-        $email = $this->request->getPost('email');
-        $password = $this->request->getPost('password');
+        $email = $this->request->getVar('email');
+        $password = $this->request->getVar('password');
 
         // Verificar se o email e a senha estão corretos
         $user = $this->loginModel->where('email', $email)->first();

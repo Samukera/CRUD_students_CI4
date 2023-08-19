@@ -70,7 +70,7 @@ class Filters extends BaseConfig
      */
     public array $filters = [
         'auth' => ['before' => ['admin/*']],
-        'throttle' => ['before' => ['api/login']],
+        'throttle' => ['before' => ['api/auth/login']],
         'ratelimit' => ['before' => ['api/listStudent', 'api/createStudent', 'api/updateStudent', 'api/deleteStudent']],
     ];
 }

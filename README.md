@@ -1,62 +1,185 @@
-# CodeIgniter 4 Application Starter
 
-## What is CodeIgniter?
+# API RESTful CRUD estudantes (Backend)
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+Este projeto é uma API RESTful construída em CodeIgniter 4, um framework PHP moderno e poderoso que facilita o desenvolvimento de aplicações web. A API é capaz de gerenciar um sistema de cadastro de alunos, permitindo realizar as seguintes operações:
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+- Listar todos os alunos cadastrados, com seus respectivos dados, como nome, idade, curso, etc.
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+- Adicionar um novo aluno, informando todos os campos necessários, como nome, idade, curso, etc.
 
-The user guide corresponding to the latest version of the framework can be found
-[here](https://codeigniter4.github.io/userguide/).
+- Visualizar os detalhes de um aluno específico, buscando pelo seu identificador único.
 
-## Installation & updates
+- Atualizar as informações de um aluno, alterando os campos desejados, como nome, idade, curso, etc.
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+- Excluir um aluno do sistema, removendo todos os seus dados do banco de dados.
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+Além disso a API possui um sistema de autenticação, portanto todas as rotas do CRUD possuem controle de acesso as rotas.
 
-## Setup
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
 
-## Important Change with index.php
+## Informações extras
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+A API conta com medidas de segurança como `Token` de autenticação via JWT, Filtros de autenticação de rotas para controle de acesso do usuário, segurança contra ataques do tipo CSRF (Cross-Site Request Forgery), segurança contra ataque de força de bruta padrão onde se tenta estressar a API com muitas requisições por segundo, por isto o foram implementados filtros baseados na biblioteca Throttle.
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+## Instalação e configuração do projeto
 
-**Please** read the user guide for a better explanation of how CI4 works!
+### Clone o repositório do GitHub
+Abra um terminal e navegue até o diretório onde deseja clonar o repositório. Em seguida, use o comando `git  clone` seguido da URL do repositório do GitHub.
 
-## Repository Management
+### Instale as dependências
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+```bash
+  composer install
+```
+### Configure o arquivo .env e execute o servidor
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+Use o arquivo ```env-example``` como referência para criar o seu ```.env```.
 
-## Server Requirements
+Feita a configuração, você pode rodar o comando abaixo para rodar o projeto.
+```bash
+  php spark serve
+```    
+## Documentação da API
 
-PHP version 7.4 or higher is required, with the following extensions installed:
+## Auth
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+#### Cria conta administrativa
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+```http
+  POST /api/auth/createLogin
+```
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+**Cabeçalho**: 'Content-Type: application/json'
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `username` | `string` | **Obrigatório**. |
+| `email` | `string` | **Obrigatório**. **E-mail válido e único**.|
+| `password` | `string` | **Obrigatório**. **Tamanho mínimo 6 caracteres**. |
+
+**Body**:
+```json
+{
+    "username": "testefim",
+    "email": "testefim@admin.com",
+    "password": "testefim1234"
+}
+```
+
+#### Login
+
+```http
+  POST /api/auth/login
+```
+
+**Cabeçalho**: 'Content-Type: application/json', 'X-CSRF-TOKEN: [valor_token]'
+
+**Limite de requisições por minuto**: 5 requisições por minuto.
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `email`      | `string` | **Obrigatório**. **E-mail válido**. |
+| `password`      | `string` | **Obrigatório**. **Tamanho mínimo 6 caracteres**. |
+
+**Body**:
+```json
+{
+    "email": "testefim@admin.com",
+    "password": "testefim1234"
+}
+```
+
+## Students
+**Limite de requisições por minuto**: 30 requisições por minuto.
+#### Lista todos estudantes
+
+```http
+  GET /api/listStudents
+```
+
+**Cabeçalho**: 'Content-Type: application/json', 'X-CSRF-TOKEN: [valor_token]', 'Bearer Token'
+
+#### Lista estudante específico
+
+```http
+  GET /api/listStudents/id
+```
+
+**Cabeçalho**: 'Content-Type: application/json', 'X-CSRF-TOKEN: [valor_token]', 'Bearer Token'
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `id`      | `int` | **Obrigatório**. O ID do estudante que você quer puxar os dados. |
+
+#### Cria novo estudante
+
+```http
+  POST /api/createStudent
+```
+
+**Cabeçalho**: 'Content-Type: application/json', 'X-CSRF-TOKEN: [valor_token]', 'Bearer Token'
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `name`      | `string` | **Obrigatório**. **Tamanho mínimo 3 caracteres**. |
+| `email`      | `string` | **Obrigatório**. **E-mail válido e único**. |
+| `fone`      | `numeric` | **Obrigatório**. |
+| `address`      | `string` | **Obrigatório**. |
+| `picture`      | `string` | **Obrigatório**. |
+
+
+**Body**:
+```json
+{
+    "name": "teste2",
+    "email": "samu7@gmail.com",
+    "fone": "1234567890",
+    "address": "blablalblablalblablal",
+    "picture": "blalblalblalllblalbl"
+}
+```
+
+#### Edita estudante existente
+
+```http
+  PUT /api/updateStudent/id
+```
+**Cabeçalho**: 'Content-Type: application/json', 'X-CSRF-TOKEN: [valor_token]', 'Bearer Token'
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `id`      | `int` | **Obrigatório**. O ID do estudante que você quer atualizar os dados. |
+| `name`      | `string` | **Obrigatório**. **Tamanho mínimo 3 caracteres**. |
+| `email`      | `string` | **Obrigatório**. **E-mail válido e único**. |
+| `fone`      | `numeric` | **Obrigatório**. |
+| `address`      | `string` | **Obrigatório**. |
+| `picture`      | `string` | **Obrigatório**. |
+
+**Body**:
+```json
+{
+    "fone": "2244557891",
+    "address": "rua piaui 110, parque pinheiro machado, 97030-470"
+}
+```
+
+#### Deleta estudante
+
+```http
+  DELETE /api/deleteStudent/id
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `id`      | `int` | **Obrigatório**. O ID do estudante que você quer excluir os dados. |
+| `email`      | `string` | **Obrigatório**. O ID do item que você quer |
+| `password`      | `string` | **Obrigatório**. O ID do item que você quer |
+
+
+
+
+
+## Stack utilizada
+
+**Back-end:** PHP 8.2 - CodeIgniter 4
+
