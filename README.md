@@ -14,6 +14,8 @@ Este projeto é uma API RESTful construída em CodeIgniter 4, um framework PHP m
 
 Além disso a API possui um sistema de autenticação, portanto todas as rotas do CRUD possuem controle de acesso as rotas.
 
+**Collection Postman**: arquivo -> `CI4API.postman_collection.json`
+
 ## Informações extras
 
 A API conta com medidas de segurança como `Token` de autenticação via JWT, Filtros de autenticação de rotas para controle de acesso do usuário, segurança contra ataques do tipo CSRF (Cross-Site Request Forgery), segurança contra ataque de força de bruta padrão onde se tenta estressar a API com muitas requisições por segundo, por isto o foram implementados filtros baseados na biblioteca Throttle.
