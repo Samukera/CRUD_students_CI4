@@ -1,0 +1,262 @@
+{
+	"info": {
+		"_postman_id": "b9023865-82c9-40a9-bc5e-36925d91db2c",
+		"name": "CI4API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16742535"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Create Login Account",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"testefim\",\r\n    \"email\": \"testefim@admin.com\",\r\n    \"password\": \"testefim1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}api/auth/createLogin",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"auth",
+								"createLogin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-CSRF-TOKEN",
+								"value": "869306794053d56fddab40b65932521d",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@admin.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}api/auth/login",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Students",
+			"item": [
+				{
+					"name": "Find All users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2OTI0MDc5NTksImV4cCI6MTY5MjQxMTU1OSwiZGF0YSI6eyJpZCI6IjUiLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9fQ.IUZpDCYKKZGV3_eA7enEojkqi7NEbmX8AFsEQe9ixV8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-CSRF-TOKEN",
+								"value": " 8fb8806d9a88c3974924458568b9344f",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}api/student/listStudent",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"student",
+								"listStudent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Student",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2OTIzOTIwMTgsImV4cCI6MTY5MjM5NTYxOCwiZGF0YSI6eyJpZCI6IjUiLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9fQ.74IpM3ONYJ6TtmRSVyLs7IDmolKQVRdMceUQpeLOQvY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-CSRF-TOKEN",
+								"value": "c42a7a82e936c6b2d466170fddfbc98e",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"teste2\",\r\n    \"email\": \"samu7@gmail.com\",\r\n    \"fone\": \"1234567890\",\r\n    \"address\": \"blablalblablalblablal\",\r\n    \"picture\": \"blalblalblalllblalbl\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}api/student/createStudent",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"student",
+								"createStudent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Student",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2OTIzMzI3NzEsImV4cCI6MTY5MjMzNjM3MSwiZGF0YSI6eyJpZCI6IjUiLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9fQ.V-Jy72X3nWBJmnm1yXuMqCwMn-WGAkn50IBegiAvPCs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "X-CSRF-TOKEN",
+								"value": "c42a7a82e936c6b2d466170fddfbc98e",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fone\": \"2244557891\",\r\n    \"address\": \"rua piaui 110, parque pinheiro machado, 97030-470\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}api/student/updateStudent/2",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"student",
+								"updateStudent",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Student",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2OTI0MDc5NTksImV4cCI6MTY5MjQxMTU1OSwiZGF0YSI6eyJpZCI6IjUiLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSJ9fQ.IUZpDCYKKZGV3_eA7enEojkqi7NEbmX8AFsEQe9ixV8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-CSRF-TOKEN",
+								"value": "c42a7a82e936c6b2d466170fddfbc98e",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}api/student/deleteStudent/1",
+							"host": [
+								"{{base_url}}api"
+							],
+							"path": [
+								"student",
+								"deleteStudent",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Teste 404",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080/"
+		}
+	]
+}
