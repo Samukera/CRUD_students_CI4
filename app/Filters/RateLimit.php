@@ -13,18 +13,33 @@ class RateLimit implements FilterInterface
     {
         $throttler = Services::throttler();
 
-        // Obtém o ID do usuário autenticado usando a classe de autenticação Myth/Auth.
-        $authenticate = Services::authentication();
-        if ($authenticate->check()) {
-            $userId = $authenticate->user()->id;
+        // Obtém o endereço IP do usuário.
+        $ipAddress = $request->getIPAddress();
 
-            // Restringe um usuário autenticado a não mais do que 30 solicitações
-            // por minuto em todas as rotas protegidas.
-            if ($throttler->check($userId, 30, MINUTE) === false)
-            {
-                return Services::response()->setStatusCode(429);
-            }
+        // Define os caracteres reservados e o caractere permitido.
+        $reservedChars = ['{', '}', '(', ')', '/', '\\', '@', ':'];
+        $allowedChar = '-';
+
+        // Substitui os caracteres reservados pelo caractere permitido.
+        $ipAddress = str_replace($reservedChars, $allowedChar, $ipAddress);
+
+        // Restringe um endereço IP a não mais do que 50 solicitações
+        // por minuto em toda a rotas.
+        if ($throttler->check($ipAddress, 50, MINUTE) === false)
+        {
+            return Services::response()->setStatusCode(429);
         }
+
+        // // Obtém o ID do usuário autenticado usando a classe de autenticação Myth/Auth.
+        // $authenticate = Services::authentication();
+        // if ($authenticate->check()) {
+        //     $userId = $authenticate->user()->id;
+
+        //     if ($throttler->check($userId, 2, MINUTE) === false)
+        //     {
+        //         return Services::response()->setStatusCode(429);
+        //     }
+        // }
     }
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)

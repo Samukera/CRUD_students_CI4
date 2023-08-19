@@ -26,7 +26,7 @@ class Filters extends BaseConfig
         'secureheaders' => SecureHeaders::class,
         'auth' => Auth::class,
         'throttle' => Throttle::class,
-        'ratelimit' => RateLimit::class
+        'ratelimit' => RateLimit::class,
     ];
 
     /**
@@ -69,8 +69,8 @@ class Filters extends BaseConfig
      * 'isLoggedIn' => ['before' => ['account/*', 'profiles/*']]
      */
     public array $filters = [
-        'auth' => ['before' => ['admin/*']],
+        'auth' => ['before' => ['api/student/*']],
         'throttle' => ['before' => ['api/auth/login']],
-        'ratelimit' => ['before' => ['api/listStudent', 'api/createStudent', 'api/updateStudent', 'api/deleteStudent']],
+        'ratelimit' => ['before' => ['api/student/*']],
     ];
 }

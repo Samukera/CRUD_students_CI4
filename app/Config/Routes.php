@@ -42,17 +42,17 @@ $routes->post('api/auth/createLogin', 'Login::create');
 //POST Login authenticate
 $routes->post('api/auth/login', 'Login::login');
 
-$routes->group('', ['filter' => 'auth'], function($routes)
+$routes->group('', function($routes)
 {
     //GET listStudents findAll & findUnique
-    $routes->get('api/listStudent', 'Students::listStudent');
-    $routes->get('api/listStudent/(:num)', 'Students::listStudent/$1');
+    $routes->get('api/student/listStudent', 'Students::listStudent');
+    $routes->get('api/student/listStudent/(:num)', 'Students::listStudent/$1');
     //POST createStudent
-    $routes->post('api/createStudent', 'Students::createStudent');
+    $routes->post('api/student/createStudent', 'Students::createStudent');
     //PUT updateStudent
-    $routes->put('api/updateStudent/(:num)', 'Students::updateStudent/$1');
+    $routes->put('api/student/updateStudent/(:num)', 'Students::updateStudent/$1');
     //DEL deleteStudent
-    $routes->delete('api/deleteStudent/(:num)', 'Students::deleteStudent/$1');
+    $routes->delete('api/student/deleteStudent/(:num)', 'Students::deleteStudent/$1');
 });
 
 /*
