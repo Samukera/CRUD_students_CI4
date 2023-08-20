@@ -11,6 +11,7 @@ use CodeIgniter\Filters\SecureHeaders;
 use App\Filters\Auth;
 use App\Filters\Throttle;
 use App\Filters\RateLimit;
+use App\Filters\Cors;
 
 class Filters extends BaseConfig
 {
@@ -27,6 +28,7 @@ class Filters extends BaseConfig
         'auth' => Auth::class,
         'throttle' => Throttle::class,
         'ratelimit' => RateLimit::class,
+        'cors' => Cors::class,
     ];
 
     /**
@@ -39,6 +41,7 @@ class Filters extends BaseConfig
             'csrf' => ['except' => [
                 'api/auth/*'
             ]],
+            // 'cors',
             // 'invalidchars',
         ],
         'after' => [
@@ -72,5 +75,6 @@ class Filters extends BaseConfig
         'auth' => ['before' => ['api/student/*']],
         'throttle' => ['before' => ['api/auth/login']],
         'ratelimit' => ['before' => ['api/student/*']],
+        // 'cors' => ['before' => ['api/*']],
     ];
 }

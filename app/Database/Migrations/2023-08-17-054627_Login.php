@@ -24,7 +24,7 @@ class Login extends Migration
                 'constraint' => 255
             ],
             'password' => [
-                'type' => 'VARCHAR',
+                'type' => 'TEXT',
                 'constraint' => 255
             ]
         ]);

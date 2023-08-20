@@ -17,7 +17,7 @@ class RateLimit implements FilterInterface
         $ipAddress = $request->getIPAddress();
 
         // Define os caracteres reservados e o caractere permitido.
-        $reservedChars = ['{', '}', '(', ')', '/', '\\', '@', ':'];
+        $reservedChars = ['{', '}', '(', ')', '/', '\\', '@', ':']; //trocar por regex
         $allowedChar = '-';
 
         // Substitui os caracteres reservados pelo caractere permitido.

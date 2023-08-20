@@ -36,6 +36,9 @@ Options -Indexes
 	# Ensure Authorization header is passed along
 	RewriteCond %{HTTP:Authorization} .
 	RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+	# Habilita o acesso CORS para todas as requisições
+  	Header add Access-Control-Allow-Origin "*"
 </IfModule>
 
 <IfModule !mod_rewrite.c>
@@ -43,6 +46,16 @@ Options -Indexes
 	# can be sent to index.php, and everything works as normal.
 	ErrorDocument 404 index.php
 </IfModule>
+
+<IfModule mod_headers.c>
+  SetEnvIf Request_URI "^/api/.*" API_ENV=1
+  Header set Access-Control-Allow-Origin "*" env=API_ENV
+  Header set Access-Control-Max-Age 3600 env=API_ENV
+  Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, DELETE, PUT" env=API_ENV
+  Header set Access-Control-Allow-Headers "X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method" env=API_ENV
+  Header set Access-Control-Allow-Credentials true env=API_ENV
+</IfModule>
+
 
 # Disable server signature start
 	ServerSignature Off

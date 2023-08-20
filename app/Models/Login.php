@@ -26,7 +26,7 @@ class Login extends Model
     protected $validationRules      = [
         'username' => 'required',
         'email' => 'required|valid_email|is_unique[login.email]',
-        'password' => 'required|min_length[6]'
+        'password' => 'required|min_length[6]|max_length[255]'
     ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;

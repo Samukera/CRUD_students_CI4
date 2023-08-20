@@ -10,7 +10,7 @@ class Login extends ResourceController
 {
     use ResponseTrait;
     private $loginModel;
-
+    
     public function __construct()
     {
         $this->loginModel = new \App\Models\Login();
