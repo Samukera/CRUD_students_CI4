@@ -18,7 +18,7 @@ Além disso a API possui um sistema de autenticação, portanto todas as rotas d
 
 ## Informações extras
 
-A API conta com medidas de segurança como `Token` de autenticação via JWT, Filtros de autenticação de rotas para controle de acesso do usuário, segurança contra ataques do tipo CSRF (Cross-Site Request Forgery), segurança contra ataque de força de bruta padrão onde se tenta estressar a API com muitas requisições por segundo, por isto o foram implementados filtros baseados na biblioteca Throttle.
+A API conta com medidas de segurança como `Token` de autenticação via JWT, Filtros de autenticação de rotas para controle de acesso do usuário, segurança contra ataque de força de bruta padrão onde se tenta estressar a API com muitas requisições por segundo, por isto o foram implementados filtros baseados na biblioteca Throttle.
 
 ## Instalação e configuração do projeto
 
@@ -36,9 +36,28 @@ Abra um terminal e navegue até o diretório onde deseja clonar o repositório. 
 
 Use o arquivo `env-example` como referência para criar o seu `.env`.
 
+Após isso, edite os constructs do controllers adicionando o seguinte código:
+
+```bash
+        header('Access-Control-Allow-Origin: url_project_frontend');
+        header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
+        header('Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding');
+```
+
+Faça isso nos controllers: Login.php e Students.php
+
+Além disso acesse o arquivo Cors.php localizado dentro da pasta app\Config e altere o valor da variável $allowedOrigins para:
+
+```bash
+public $allowedOrigins = ['url_project_frontend'];
+```
+
+OBS: url_project_frontend -> A URL em que está rodando o projeto frontend desta API.
+
 Feita a configuração, você pode rodar o comando abaixo para rodar o projeto.
 
 ```bash
+  php spark migrate
   php spark serve
 ```
 
@@ -76,7 +95,7 @@ Feita a configuração, você pode rodar o comando abaixo para rodar o projeto.
   POST /api/auth/login
 ```
 
-**Cabeçalho**: 'Content-Type: application/json', 'X-CSRF-TOKEN: [valor_token]'
+**Cabeçalho**: 'Content-Type: application/json'
 
 **Limite de requisições por minuto**: 5 requisições por minuto.
 
@@ -104,7 +123,7 @@ Feita a configuração, você pode rodar o comando abaixo para rodar o projeto.
   GET /api/listStudents
 ```
 
-**Cabeçalho**: 'Content-Type: application/json', 'X-CSRF-TOKEN: [valor_token]', 'Bearer Token'
+**Cabeçalho**: 'Content-Type: application/json', 'Bearer Token'
 
 #### Lista estudante específico
 
@@ -112,7 +131,7 @@ Feita a configuração, você pode rodar o comando abaixo para rodar o projeto.
   GET /api/listStudents/id
 ```
 
-**Cabeçalho**: 'Content-Type: application/json', 'X-CSRF-TOKEN: [valor_token]', 'Bearer Token'
+**Cabeçalho**: 'Content-Type: application/json', 'Bearer Token'
 
 | Parâmetro | Tipo  | Descrição                                                        |
 | :-------- | :---- | :--------------------------------------------------------------- |
@@ -124,7 +143,7 @@ Feita a configuração, você pode rodar o comando abaixo para rodar o projeto.
   POST /api/createStudent
 ```
 
-**Cabeçalho**: 'Content-Type: application/json', 'X-CSRF-TOKEN: [valor_token]', 'Bearer Token'
+**Cabeçalho**: 'Content-Type: application/json', 'Bearer Token'
 
 | Parâmetro | Tipo      | Descrição                                         |
 | :-------- | :-------- | :------------------------------------------------ |
@@ -152,7 +171,7 @@ Feita a configuração, você pode rodar o comando abaixo para rodar o projeto.
   PUT /api/updateStudent/id
 ```
 
-**Cabeçalho**: 'Content-Type: application/json', 'X-CSRF-TOKEN: [valor_token]', 'Bearer Token'
+**Cabeçalho**: 'Content-Type: application/json', 'Bearer Token'
 
 | Parâmetro | Tipo      | Descrição                                                            |
 | :-------- | :-------- | :------------------------------------------------------------------- |
@@ -181,6 +200,12 @@ Feita a configuração, você pode rodar o comando abaixo para rodar o projeto.
 | Parâmetro | Tipo  | Descrição                                                          |
 | :-------- | :---- | :----------------------------------------------------------------- |
 | `id`      | `int` | **Obrigatório**. O ID do estudante que você quer excluir os dados. |
+
+## Melhorias futuras e considerações
+
+Nesta parte do README, vou deixar algumas considerações e comentários sobre a API:
+Foi adicionado um nível de segurança csrf que tenta prevenir requisições simuladas de outros sites CSRF (Cross-Site Request Forgery), só que pra isso as requisições de tipo post/put/delete precisam de um token especial que se renova a cada requisição (por segurança) e aí foi um problema na questão do backend rodar separado do front end (cada requisição do front pro back fazia o token se alterar e aí para usar ele ficou bem complexo em relação ao tempo disponível). Essa tecnologia CSRF adiciona uma segurança adicional porém em API's rest ela se torna muito custosa pelo fato de que a obtenção do token especial na parte do front precisa de uma lógica mais complexa. E aí acabei percebendo isso de fato enquanto estava implementando, então tive uma ideia para resolver isso sem muito custo que foi substituindo esse nível adicional por algumas outras verificações mais específicas que eu já fazia (melhorei outras funções).
+Além disso, gostaria de comentar que para aumentar a qualidade e segurança da API é possível futuramente refatorar a lógica de armazenamento das imagens dos estudantes, para uma estratégia que se baseia em salvar o arquivo no servidor e o no banco de dados apenas o caminho para o arquivo, pois dessa forma o banco de dados não se torna uma preocupação a longo prazo em questão de custo de processamento de imagens. Outra possível melhoria é a adição do CSRF e também a adição de uma lógica de fingerPrint do navegador do usuário que está consumindo a API, atualmente em casos de ataque de força ou a execução excessiva e repetitiva de requisições ocasiona no trancamento do IP do usuário por um breve intervalo de tempo. Porém com a melhoria dessa lógica e implantação de uma lógica de fingerPrint do navegador é possível bloquear diretamente o usuário sem correr risco de bloqueios em IP's falsos. Para projetos futuros é válido pensar nos pontos tirados deste projeto.
 
 ## Stack utilizada
 
