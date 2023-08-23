@@ -16,18 +16,16 @@ class Throttle implements FilterInterface
         // Obtém o endereço IP do usuário.
         $ipAddress = $request->getIPAddress();
 
-        
-        // Define os caracteres reservados e o caractere permitido.
-        $reservedChars = ['{', '}', '(', ')', '/', '\\', '@', ':'];
+
+        // Define a expressão regular para os caracteres reservados.
+        $reservedCharsRegex = '/[{}()\/\\\\@:]/';
         $allowedChar = '-';
 
         // Substitui os caracteres reservados pelo caractere permitido.
-        $ipAddress = str_replace($reservedChars, $allowedChar, $ipAddress);
-
+        $ipAddress = preg_replace($reservedCharsRegex, $allowedChar, $ipAddress);
         // Restringe um endereço IP a não mais do que 6 solicitações
         // por minuto em toda a rota de login.
-        if ($throttler->check($ipAddress, 6, MINUTE) === false)
-        {
+        if ($throttler->check($ipAddress, 6, MINUTE) === false) {
             return Services::response()->setStatusCode(429);
         }
     }

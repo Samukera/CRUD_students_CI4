@@ -11,7 +11,6 @@ use CodeIgniter\Filters\SecureHeaders;
 use App\Filters\Auth;
 use App\Filters\Throttle;
 use App\Filters\RateLimit;
-use App\Filters\Cors;
 
 class Filters extends BaseConfig
 {
@@ -28,7 +27,7 @@ class Filters extends BaseConfig
         'auth' => Auth::class,
         'throttle' => Throttle::class,
         'ratelimit' => RateLimit::class,
-        'cors' => Cors::class,
+        'cors' => \Fluent\Cors\Filters\CorsFilter::class,
     ];
 
     /**
@@ -38,10 +37,10 @@ class Filters extends BaseConfig
     public array $globals = [
         'before' => [
             // 'honeypot',
-            'csrf' => ['except' => [
-                'api/auth/*'
-            ]],
-            // 'cors',
+            // 'csrf' => ['except' => [
+            //     'api/auth/*'
+            // ]],
+            'cors',
             // 'invalidchars',
         ],
         'after' => [

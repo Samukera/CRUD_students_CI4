@@ -14,7 +14,7 @@ $routes->setDefaultNamespace('App\Controllers');
 $routes->setDefaultController('Home');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
-$routes->set404Override(function() {
+$routes->set404Override(function () {
     $response = service('response');
     $response->setStatusCode(404);
     $response->setJSON(['message' => 'Verifique a URL da sua request, URL inválida.']);
@@ -35,15 +35,13 @@ $routes->set404Override(function() {
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Login::index');
 
 //POST create login
 $routes->post('api/auth/createLogin', 'Login::create');
 //POST Login authenticate
 $routes->post('api/auth/login', 'Login::login');
 
-$routes->group('', function($routes)
-{
+$routes->group('', function ($routes) {
     //GET listStudents findAll & findUnique
     $routes->get('api/student/listStudent', 'Students::listStudent');
     $routes->get('api/student/listStudent/(:num)', 'Students::listStudent/$1');

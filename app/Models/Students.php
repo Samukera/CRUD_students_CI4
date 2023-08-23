@@ -26,9 +26,9 @@ class Students extends Model
     protected $validationRules      = [
         'name' => 'required|min_length[3]',
         'email' => 'required|valid_email|is_unique[students.email]',
-        'fone' => 'required|regex_match[/^\d{10}$/]',
+        'fone' => 'required|numeric',
         'address' => 'required',
-        'picture' => 'required|valid_url'
+        'picture' => 'required'
     ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;

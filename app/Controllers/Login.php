@@ -10,14 +10,21 @@ class Login extends ResourceController
 {
     use ResponseTrait;
     private $loginModel;
-    
+
     public function __construct()
     {
         $this->loginModel = new \App\Models\Login();
+
+        header('Access-Control-Allow-Origin: http://localhost:5173');
+        header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
+        header('Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding');
     }
 
-    public function index(){
-        return  $this->respond("Running", 200);
+    public function index()
+    {
+        return $this->respond([
+            'message' => 'success',
+        ], 200);
     }
 
     public function create()
@@ -28,15 +35,15 @@ class Login extends ResourceController
             'email' => $this->request->getVar('email'),
             'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT)
         ];
-        
+
         try {
-            if($this->loginModel->insert($data)){
+            if ($this->loginModel->insert($data)) {
                 $response = [
                     'status' => 'success',
                     'message' => 'Login created'
                 ];
                 return $this->respondCreated($response);
-            }else{
+            } else {
                 $response = [
                     'status' => 'fail',
                     'errors' => $this->loginModel->errors()
@@ -44,9 +51,9 @@ class Login extends ResourceController
                 return $this->fail($response);
             }
         } catch (\Exception $e) {
-           $response = [
-                    'status' => 'error',
-                    'erros' => $e
+            $response = [
+                'status' => 'error',
+                'erros' => $e
             ];
             return $this->fail($response);
         }
@@ -69,7 +76,8 @@ class Login extends ResourceController
                 'exp' => $expirationTime,
                 'data' => [
                     'id' => $user['id'],
-                    'email' => $user['email']
+                    'email' => $user['email'],
+                    'username' => $user['username']
                 ]
             ];
             $token = JWT::encode($payload, $key, 'HS256');
