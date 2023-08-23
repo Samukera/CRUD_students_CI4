@@ -54,7 +54,9 @@ public $allowedOrigins = ['url_project_frontend'];
 
 OBS: url_project_frontend -> A URL em que está rodando o projeto frontend desta API.
 
-Feita a configuração, você pode rodar o comando abaixo para rodar o projeto.
+Feita a configuração, você pode rodar o comando abaixo para rodar o projeto. 
+
+OBS 2: lembre-se de criar sua database com o mesmo nome da database configurada no seu arquivo .env
 
 ```bash
   php spark migrate
