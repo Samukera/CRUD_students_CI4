@@ -212,3 +212,4 @@ Além disso, gostaria de comentar que para aumentar a qualidade e segurança da 
 ## Stack utilizada
 
 **Back-end:** PHP 8.2 - CodeIgniter 4
+Foram utilizadas essas tecnologias levando em consideração o intuito do projeto e objetivo.
